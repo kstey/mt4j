@@ -1,10 +1,88 @@
 package de.flohrit.mt4j;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class AbstractBasicClient implements MT4BasicClient {
+import com.cnx.jedis.CNXJedis;
+import com.cnx.jedis.DefaultJedisConfig;
+import com.cnx.jedis.JedisCreator;
 
+public abstract class AbstractBasicClient implements MT4BasicClient 
+{
+	static final boolean use_jedis;
+	static
+	{
+		String jedis_console_str = System.getProperty("JEDIS_CONSOLE");
+		use_jedis = jedis_console_str==null || jedis_console_str.equals("1");
+	}
+	
+	static 
+	{
+		
+		if( use_jedis )
+		{
+			DefaultJedisConfig.configJedisCreator();
+			JedisCreator.configure("127.0.0.1", 15934);
+			
+			try 
+			{
+
+				final CNXJedis log_jedis = new CNXJedis();
+				
+				PrintStream out = new PrintStream(new OutputStream() 
+				{
+					ByteArrayOutputStream baos = new ByteArrayOutputStream();
+					@Override
+					public void write(int b) throws IOException 
+					{
+						switch( b)
+						{
+						case '\n':
+							byte[] content = baos.toByteArray();
+							log_jedis.offer("MT4Log".getBytes(), content);
+							baos.reset();
+							break;
+							
+						case '\r':
+							break;
+							
+						default:
+							baos.write(b);
+						}
+					}
+				});
+				
+				System.setOut(out);
+				System.setErr(out);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		else
+		{
+			try 
+			{
+				File log = new File("T:/SampleEA/experts/logs/SampleEA.log");
+				log.getParentFile().mkdirs();
+				
+				PrintStream out = new PrintStream(log);
+				System.setOut(out);
+				
+				File error_log = new File("T:/SampleEA/experts/logs/SampleEA_error.log");
+				error_log.getParentFile().mkdirs();
+				System.setErr(new PrintStream(error_log));
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
 	private List<Double> high = new ArrayList<Double>();
 	private List<Double> low = new ArrayList<Double>();
 	private List<Double> open = new ArrayList<Double>();
@@ -19,7 +97,8 @@ public abstract class AbstractBasicClient implements MT4BasicClient {
 	}
 
 	@Override
-	public void addNewBar(double high, double low, double open, double close) {
+	public void addNewBar(double high, double low, double open, double close) 
+	{
 		trimArray(this.high);
 		this.high.add(0, high);
 		

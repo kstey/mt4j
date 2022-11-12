@@ -1,10 +1,7 @@
 package de.flohrit.mt4j;
 
-import java.io.FileNotFoundException;
-import java.io.PrintStream;
-
-public class SampleEA extends AbstractBasicClient {
-	
+public class SampleEA extends AbstractBasicClient 
+{
 	private int intPropertySample;
 	private double doublePropertySample;
 	private boolean boolPropertySample;
@@ -58,8 +55,10 @@ public class SampleEA extends AbstractBasicClient {
 	}
 
 	@Override
-	public void init() {
-		System.out.println("init(1)");
+	public void init() 
+	{
+		String value = System.getProperty("KSTEST");
+		System.out.println("init(1), kstest="+value);
 	}
 
 	@Override
@@ -67,16 +66,9 @@ public class SampleEA extends AbstractBasicClient {
 		System.out.println("deinit(9)");
 	}
 
-	public void doSomething() {
+	public void doSomething() 
+	{
 		System.out.println("doSomething()");
 	}
 	
-	static {
-		try {
-			System.setOut(new PrintStream("experts/logs/SampleEA.log"));
-			System.setErr(new PrintStream("experts/logs/SampleEA_error.log"));
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-	}
 }

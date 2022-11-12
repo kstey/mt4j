@@ -14,21 +14,21 @@
     <ProjectGuid>{7908BF59-34C2-443B-A859-D8B05417A16B}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>mt4j</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -42,11 +42,13 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Tools\jdk-9.0.4\include\win32;C:\Tools\jdk-9.0.4\include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Tools\jdk-9.0.4\include\win32;C:\Tools\jdk-9.0.4\include;C:\Program Files %28x86%29\Java\jdk1.8.0_201\include\win32;C:\Program Files %28x86%29\Java\jdk1.8.0_201\include;$(IncludePath)</IncludePath>
+    <PublicIncludeDirectories>$(PublicIncludeDirectories)</PublicIncludeDirectories>
+    <AllProjectIncludesArePublic>true</AllProjectIncludesArePublic>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>C:\Tools\Java\jdk1.6.0_27\include\win32;C:\Tools\Java\jdk1.6.0_27\include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Tools\Java\jdk1.6.0_27\include\win32;C:\Tools\Java\jdk1.6.0_27\include;C:\Program Files %28x86%29\Java\jdk1.8.0_201\include;C:\Program Files %28x86%29\Java\jdk1.8.0_201\include\win32;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
